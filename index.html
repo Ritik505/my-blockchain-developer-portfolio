@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritik Verma | Blockchain Developer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 3D Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --bg-color: #0f0c29;
+            --bg-gradient: linear-gradient(135deg, #24243e, #302b63, #0f0c29);
+            --primary-color: #a26aff;
+            --secondary-color: #6a11cb;
+            --text-color: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            --font-size: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: var(--font-size);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        body.light-mode {
+            --bg-color: #f0f2f5;
+            --bg-gradient: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --text-color: #1c1c1e;
+            --text-muted: #555;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body.high-contrast {
+            --bg-color: #000;
+            --bg-gradient: #000;
+            --primary-color: #ffff00;
+            --secondary-color: #00ffff;
+            --text-color: #fff;
+            --text-muted: #ccc;
+            --card-bg: #000;
+            --card-border: #fff;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .animated {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animated.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header & Navbar */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .header.scrolled {
+            background: rgba(15, 12, 41, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        body.light-mode .header.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-nav-toggle { display: none; }
+
+        /* Accessibility Menu */
+        .accessibility-menu {
+            position: fixed;
+            top: 4.5rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 50px;
+            z-index: 1001;
+            border: 1px solid var(--card-border);
+        }
+
+        .access-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .access-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            background: var(--bg-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .hero-text h1 span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            max-width: 500px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-photo-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 0 30px var(--primary-color);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero-3d-model {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --progress-bar-color: var(--primary-color);
+        }
+
+        /* Skills Section */
+        #skills { background-color: var(--bg-color); }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem 1rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .skill-card svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--primary-color);
+            stroke: var(--primary-color); /* For stroke-based icons */
+            color: var(--primary-color); /* For currentColor usage */
+            margin-bottom: 1rem;
+        }
+        
+        .skill-card h3 { margin: 0; }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-content h3 { margin-top: 0; }
+        .project-content p { color: var(--text-muted); flex-grow: 1; }
+        
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .stack-tag {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn.secondary {
+            background: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn.secondary:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Chain Integrations */
+        .chains-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+        
+        .chain-logo {
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .chain-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .chain-logo img {
+            height: 60px;
+            filter: grayscale(1);
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .chain-logo:hover img {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+        
+        .tooltip {
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        
+        .chain-logo:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .experience-item {
+            padding: 1rem 2rem;
+            position: relative;
+            background: var(--card-bg);
+            border-left: 3px solid var(--primary-color);
+            margin-bottom: 2rem;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .experience-item h3 { margin-top: 0; }
+        .experience-item p { margin-bottom: 0.5rem; color: var(--text-muted); }
+        .experience-item a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .experience-item a:hover { text-decoration: underline; }
+
+        /* Blog Section */
+        #blog { background-color: var(--bg-color); }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .contact-info p { font-size: 1.2rem; }
+        .contact-info .cta { margin-bottom: 2rem; font-weight: 600; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: #0a081c;
+            border-top: 1px solid var(--card-border);
+        }
+        
+        footer .social-links { justify-content: center; }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { order: 2; }
+            .hero-visual { order: 1; margin-bottom: 2rem; }
+            .social-links { justify-content: center; }
+            .contact-content { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            html { font-size: 14px; }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(15, 12, 41, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.5s ease-in-out;
+            }
+
+            body.light-mode .nav-links {
+                background: rgba(240, 242, 245, 0.95);
+            }
+
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.5rem; }
+
+            .mobile-nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-color);
+                font-size: 2rem;
+                cursor: pointer;
+                z-index: 1001;
+            }
+            
+            .hero-text h1 { font-size: 2.8rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero-photo-container { width: 250px; height: 250px; }
+            .hero-3d-model { width: 400px; height: 400px; }
+        }
+        
+        @media (max-width: 480px) {
+            .accessibility-menu { top: 1rem; right: 1rem; padding: 0.3rem; }
+            .access-btn { width: 30px; height: 30px; font-size: 1rem; }
+            .hero-text h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+        }
+        /* Styling for the chain logo grid */
+        /* Styling for the chain logo grid */
+.chains-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.chain-logo img {
+    height: 80px;
+    width: auto;
+    /* The filter that was causing issues */
+    filter: grayscale(100%);
+    transition: all 0.3s ease-in-out;
+}
+
+.chain-logo:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+/* Tooltip Styling */
+.chain-logo {
+    position: relative;
+    cursor: pointer;
+}
+
+.chain-logo .tooltip {
+    visibility: hidden;
+    width: max-content;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.chain-logo:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Accessibility Menu -->
+    <div class="accessibility-menu">
+        <button id="font-decrease" class="access-btn" title="Decrease Font Size">A-</button>
+        <button id="font-increase" class="access-btn" title="Increase Font Size">A+</button>
+        <button id="contrast-toggle" class="access-btn" title="Toggle High Contrast">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q150 0 255 105t105 255q0 150-105 255T480-120Zm0-80q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200Zm0-40V-720q100 0 170 70t70 170q0 100-70 170t-170 70Z"/></svg>
+        </button>
+        <button id="theme-toggle" class="access-btn" title="Toggle Dark/Light Mode">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q150 0 255 105t105 255q0 150-105 255T480-120Zm0-80q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200Z"/></svg>
+        </button>
+    </div>
+   
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar container">
+            <a href="#hero" class="nav-logo">Ritik Verma</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open navigation menu">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content container">
+            <div class="hero-text">
+                <h1>Ritik Verma <span>Blockchain Developer</span></h1>
+                <p>Building secure and scalable Web3 applications using Solidity, Ethers.js & Web3.js.</p>
+                <div class="social-links">
+                    <a href="https://github.com/Ritik505" target="_blank" title="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://x.com/RV_Programmer" target="_blank" title="Twitter (X)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ritik-verma-10b446326" target="_blank" title="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <model-viewer class="hero-3d-model" src="assets/blockchain-cube.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                <div class="hero-photo-container">
+                    <img src="PhotoForPortfolio.jpeg" alt="Ritik Verma Headshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title animated">My Tech Stack</h2>
+            <div class="skills-grid">
+                <div class="skill-card animated">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"/></svg>
+                    <h3>Solidity</h3>
+                </div>
+                <div class="skill-card animated" style="transition-delay: 0.1s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM8.5 15H7.25l-2-2.5 2-2.5H8.5V6H10v4h1v1H10v4H8.5zm5.5-1.5h-3v-1h3V11h1v1.5h1v1h-1V15h-1zm3.5 1.5h-2.5v-6H18V15z"/></svg>
+                    <h3>Hardhat</h3>
+                </div>
+                <div class="skill-card animated" style="transition-delay: 0.2s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448 256c0-10.5-8.5-19-19-19h-5.6c-3.3-13.3-8.8-25.9-16-37.3c-7.9-12.4-17.8-23.4-29.2-32.5c-11.2-9-23.5-16.1-36.4-21.1c-12.4-4.8-25.1-7.5-37.8-7.5c-13.3 0-26.4 2.9-38.9 8.2c-12.5 5.3-24.2 12.6-35 21.5c-10.7 8.8-20.3 19.3-28.3 30.9c-7.8 11.4-14 23.7-18.1 36.5H19c-10.5 0-19 8.5-19 19s8.5 19 19 19h7.1c3.6 12.8 9.3 25.1 16.7 36.5c8.3 12.4 18.3 23.4 29.7 32.5c11.2 9 23.5 16.1 36.4 21.1c12.4 4.8 25.1 7.5 37.8 7.5c13.3 0 26.4-2.9 38.9-8.2c12.5-5.3 24.2-12.6 35-21.5c10.7-8.8 20.3-19.3 28.3-30.9c7.8-11.4 14-23.7 18.1-36.5h5.6c10.5 0 19-8.5 19-19zM224 320c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z"/></svg>
+                    <h3>Ethers.js</h3>
+                </div>
+                <div class="skill-card animated" style="transition-delay: 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"/></svg>
+                    <h3>Web3.js</h3>
+                </div>
+                <div class="skill-card animated" style="transition-delay: 0.4s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-11.5 -10.23174 23 20.46348">
+                        <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
+                        <g stroke="currentColor" stroke-width="1" fill="none">
+                            <ellipse rx="11" ry="4.2"/>
+                            <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+                            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+                        </g>
+                    </svg>
+                    <h3>React.js</h3>
+                </div>
+                <div class="skill-card animated" style="transition-delay: 0.5s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M11.625 18.23c-1.25.02-2.31-.22-3.18-.72-1.02-.59-1.53-1.6-1.53-3.03V8.87c0-1.02.2-1.84.6-2.45.39-.61.97-1.03 1.73-1.26.76-.23 1.68-.23 2.76-.02 1.08.21 1.94.75 2.59 1.63.65.88.97 2.04.97 3.47v.34c0 .85.08 1.54.23 2.06.15.52.48.91.98 1.16.5.25.96.26 1.38.02.42-.24.63-.67.63-1.29v-1.21c0-.5-.13-.93-.4-1.29-.27-.36-.66-.54-1.16-.54h-.23v-2.15h.35c.78 0 1.45-.19 2.02-.57.57-.38.85-.92.85-1.62 0-.66-.23-1.2-.68-1.62-.45-.42-1.06-.63-1.82-.63-.59 0-1.12.1-1.58.3-.46.2-.84.5-1.12.91-.28.41-.42.89-.42 1.44v.22h-2.14v-.22c0-.85-.29-1.6-.86-2.25-.57-.65-1.34-1.02-2.3-1.11-1.03-.1-2.02.04-2.96.44-.94.4-1.69 1.05-2.25 1.95s-.83 2.02-.83 3.39v5.63c0 1.8.46 3.21 1.38 4.25.91 1.04 2.22 1.56 3.92 1.56.88 0 1.7-.13 2.45-.4.75-.27 1.38-.68 1.88-1.23.5-.55.75-1.22.75-2.02v-3.36h-2.14v3.36c0 .48-.12.87-.35 1.16-.24.29-.6.44-1.08.44z"/>
+                    </svg>
+                    <h3>Node.js</h3>
+                </div>
+                 <div class="skill-card animated" style="transition-delay: 0.6s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M224 96a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm141.2 24.2c-4.3-13.6-18.2-22.2-31.9-17.9s-22.2 18.2-17.9 31.9l32 101.5c5.3 16.7-4.1 34.7-20.8 40.1s-34.7-4.1-40.1-20.8L224.2 154.7c-5.3-16.7-23.3-26.1-40.1-20.8s-26.1 23.3-20.8 40.1l70.7 224.2c5.3 16.7 23.3 26.1 40.1 20.8s26.1-23.3 20.8-40.1L283.4 308.5c4.3 13.6 18.2 22.2 31.9 17.9s22.2-18.2 17.9-31.9l-32-101.5c-5.3-16.7 4.1-34.7 20.8-40.1s34.7 4.1 40.1 20.8l62.3 101.3c5.3 16.7 23.3 26.1 40.1 20.8s26.1-23.3 20.8-40.1L365.2 120.2z"/></svg>
+                    <h3>Chainlink VRF</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title animated">My Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card animated">
+                    <img src="Lottery  DApp.png" alt="Project 1" class="project-image">
+                    <div class="project-content">
+                        <h3>Decentralized Lottery DApp powered by Ethereum</h3>
+                        <p>A decentralized lottery DApp where 3 players each buy a 5 ETH ticket and pick a number. If the smart contract’s random pick matches a player’s number, they win 12 ETH; otherwise, the manager gets all 15.</p>
+                        <div class="project-stack">
+                            <span class="stack-tag">Solidity</span>
+                            <span class="stack-tag">Ethers.js</span>
+                            <span class="stack-tag">Web3.js</span>
+                            <span class="stack-tag">React.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://x.com/RV_Programmer/status/1919359720533442964" class="btn" target="_blank">Live Demo</a>
+                            <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/Lottery%20App" class="btn secondary" target="_blank">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card animated" style="transition-delay: 0.1s;">
+                    <img src="Avax nitro racer.png" alt="Project 2" class="project-image">
+                    <div class="project-content">
+                        <h3>AVAX Nitro Racers <br> Web3 NFT Car Game</h3>
+                        <p>A Web3 racing game where players mint NFT cars and dodge enemy vehicles on-chain. Built on the Avalanche Fuji Testnet with AVAX-powered boosts and blockchain-based gameplay.</p>
+                        <div class="project-stack">
+                            <span class="stack-tag">Web3.js</span>
+                            <span class="stack-tag">Solidity</span>
+                            <span class="stack-tag">Ether.js</span>
+                            <span class="stack-tag">React.js</span>
+
+                        </div>
+                        <div class="project-links">
+                            <a href="https://x.com/RV_Programmer/status/1911820781761310862" class="btn" target="_blank">Live Demo</a>
+                            <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/Web3%20NFT%20Car%20Game%20%E2%80%93%20AVAX%20Chain" class="btn secondary" target="_blank">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-card animated" style="transition-delay: 0.2s;">
+                    <img src="Avax Transfer DApp.png" alt="Project 3" class="project-image">
+                    <div class="project-content">
+                        <h3>AVAX Transfer DApp</h3>
+                        <p>A fast and user-friendly decentralized application for sending AVAX between wallets. Features include real-time gas fee tracking, live sender & receiver balance updates, and full transaction history with Snowtrace links.</p>
+                        <div class="project-stack">
+                            <span class="stack-tag">React.js</span>
+                            <span class="stack-tag">Web3.js</span>
+                            <span class="stack-tag">Ethers.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://x.com/RV_Programmer/status/1935333004873707782" class="btn" target="_blank">Live Demo</a>
+                            <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/AVAX%20Transfer%20DApp" class="btn secondary" target="_blank">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add 3 more projects similarly -->
+                <div class="project-card animated" style="transition-delay: 0.3s;">
+                     <img src="Crypto swap calculator.png" alt="Project 4" class="project-image">
+                     <div class="project-content">
+                         <h3>Crypto Swap Calculator</h3>
+                         <p>A tool to calculate swap prices between major cryptocurrencies (ETH, BTC, BNB, SOL, and others) using real-time market data. Powered by Web3.js and live price APIs for accurate conversions.</p>
+                         <div class="project-stack">
+                             <span class="stack-tag">CoinGecko API</span>
+                             <span class="stack-tag">Web3.js</span>
+                             <span class="stack-tag">HTML, CSS, JavaScript</span>
+                         </div>
+                         <div class="project-links">
+                             <a href="https://x.com/RV_Programmer/status/1906359372424651097" class="btn" target="_blank">Live Demo</a>
+                             <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/Crypto%20Swap%20Calculator" class="btn secondary" target="_blank">GitHub</a>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="project-card animated" style="transition-delay: 0.4s;">
+                     <img src="Avax price and gas fee tracer.png" alt="Project 5" class="project-image">
+                     <div class="project-content">
+                         <h3>AVAX Price & Gas Fee Tracer</h3>
+                         <p>A real-time dashboard that displays the live AVAX price and tracks gas usage in the latest 10 Avalanche blocks, updating every 10 seconds. Built to explore on-chain analytics using Web3 tools.</p>
+                         <div class="project-stack">
+                             <span class="stack-tag">Chart.js</span>
+                             <span class="stack-tag">CoinGecko API</span>
+                             <span class="stack-tag">Ethers.js</span>
+                         </div>
+                         <div class="project-links">
+                             <a href="https://x.com/RV_Programmer/status/1909634370874257662" class="btn" target="_blank">Live Demo</a>
+                             <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/avax%20price%20and%20gas%20fee%20tracer" class="btn secondary" target="_blank">GitHub</a>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="project-card animated" style="transition-delay: 0.5s;">
+                     <img src="Ethereum gas fee tracer.png" alt="Project 6" class="project-image">
+                     <div class="project-content">
+                         <h3>Ethereum Gas Fee Tracer</h3>
+                         <p>A real-time dashboard that tracks gas usage in the latest 10 Ethereum blocks. Data refreshes every 3 seconds and is visualized with an interactive bar chart. Built to explore live on-chain analytics using Ethereum RPC.</p>
+                         <div class="project-stack">
+                             <span class="stack-tag">Alchemy</span>
+                             <span class="stack-tag">Ethers.js</span>
+                             <span class="stack-tag">Chart.js</span>
+                         </div>
+                         <div class="project-links">
+                             <a href="https://www.linkedin.com/posts/ritik-verma-10b446326_ethereum-blockchain-web3-activity-7300043820736339968-L36K?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFJKfRsBWHYC9sx888sGuCbKA7sBrLcPtQ4" class="btn" target="_blank">Live Demo</a>
+                             <a href="https://github.com/Ritik505/Blockchain-decentralize-application/tree/main/Ethereum%20gas%20fee%20tracer" class="btn secondary" target="_blank">GitHub</a>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chain Integrations Section -->
+     <!-- Chain Integrations Section (Final Working Version) -->
+<section id="chains">
+  <div class="container">
+    <h2 class="section-title animated">Chain Experience</h2>
+    <div class="chains-grid animated">
+      
+      <!-- Ethereum -->
+      <div class="chain-logo">
+        <img src="https://cdn.simpleicons.org/ethereum/8A92B2" alt="Ethereum Logo" style="width: 40px; height: auto;">
+        <span class="tooltip">Ethereum</span>
+      </div>
+
+      <!-- Avalanche (Fixed Logo) -->
+      <div class="chain-logo">
+         <img src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/avax.png"
+             alt="Avalanche Logo" style="width: 40px; height: auto;">
+         <span class="tooltip">Avalanche</span>
+       </div>
+
+
+      <!-- Solana -->
+      <div class="chain-logo">
+        <img src="https://cdn.simpleicons.org/solana/9945FF" alt="Solana Logo" style="width: 40px; height: auto;">
+        <span class="tooltip">Solana</span>
+      </div>
+
+      <!-- Polygon -->
+      <div class="chain-logo">
+        <img src="https://cdn.simpleicons.org/polygon/8247E5" alt="Polygon Logo" style="width: 40px; height: auto;">
+        <span class="tooltip">Polygon</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- Experience & Achievements -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title animated">Experience & Achievements</h2>
+            <div class="experience-timeline">
+                <div class="experience-item animated" style="transition-delay: 0.1s;">
+                    <h3>Freelance Blockchain Developer</h3>
+                    <p><strong>Upwork | 2023 - Present</strong></p>
+                    <p>Successfully delivered 10+ smart contract and DApp projects for clients, focusing on security audits and gas optimization.</p>
+                </div>
+                <div class="experience-item animated">
+                    <h3>Built 14+ Blockchain Projects</h3>
+                    <p><strong><a href="https://github.com/Ritik505/Blockchain-decentralize-application" target="_blank"> Explore more projects on my GitHub →</a></strong></p>
+                    <p>Developed and deployed full-stack DApps using Solidity, Web3.js, and Ethers.js on Ethereum and Avalanche</p>
+                </div>
+
+                <div class="experience-item animated" style="transition-delay: 0.2s;">
+                    <h3>Focused on Smart Contract Security</h3>
+                    <p><strong>Optimized smart contracts for gas and safety using best practices</strong></p>
+                    <p>Ensured secure logic before deploying </p>
+                    <p><strong><a href="https://github.com/Ritik505/Blockchain-solidity" target="_blank"> View Solidity Projects on my GitHub →</a></strong></p>
+                </div>
+
+                <div class="experience-item animated" style="transition-delay: 0.2s;">
+                    <h3>🌍 Grew My Web3 Presence</h3>
+                    <p><strong>Shared open-source projects and live demos on GitHub, Twitter (X), and LinkedIn.</strong></p>
+                    <p>Actively engaged with Avalanche and Ethereum developer communities. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Blog Section -->
+    <section id="blog">
+        <div class="container">
+            <h2 class="section-title animated">From My Blog</h2>
+            <div class="projects-grid">
+                <!-- Blog Post 1 -->
+                <div class="project-card animated">
+                    <div class="project-content">
+                        <h3>Mastering AVAX Transfers: A Web3 DApp with Real-Time Gas Insights</h3>
+                        <p>A deep dive into my AVAX wallet-to-wallet transfer DApp, built with Ethers.js — featuring live gas fee tracking, dynamic balance updates, and integrated Snowtrace transaction history.</p>
+                        <div class="project-links">
+                            <a href="https://x.com/RV_Programmer/status/1935344370284388715" class="btn" target="_blank">Read on Medium</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blog Post 2 -->
+                <div class="project-card animated" style="transition-delay: 0.1s;">
+                    <div class="project-content">
+                        <h3>Live Crypto Pricing DApp: Chainlink-Powered Data with Web3 Integration</h3>
+                        <p>Built a real-time price tracker for Ethereum and Bitcoin using <strong>Chainlink oracles</strong> and <strong>Web3.js</strong>. This DApp ensures ultra-reliable price feeds, integrates seamlessly with <strong>MetaMask</strong>, and showcases how decentralized data can power fast, user-friendly blockchain interfaces.</p>
+                        
+                        <div class="project-links">
+                            <a href="https://www.linkedin.com/posts/ritik-verma-10b446326_crypto-web3-ethereum-activity-7296830095791390720-itms?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFJKfRsBWHYC9sx888sGuCbKA7sBrLcPtQ4" class="btn" target="_blank">Read on Medium</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title animated">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info animated">
+                    <p class="cta">Open to Web3 collabs, freelance projects, and full-time roles. Let's build the future of the decentralized web together!</p>
+                    <a href="Ritik Verma Blockchain Developer Resume.docx" download class="btn">Download My Resume</a>
+                </div>
+                <form
+                    action="https://formsubmit.co/rv.coder55555@gmail.com"
+                    method="POST"
+                    class="contact-form animated"
+                    style="transition-delay: 0.1s"
+                 >
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_next" value="https://your-portfolio-name.netlify.app/thank-you.html" />
+
+                  <input type="text" name="name" placeholder="Your Name" required />
+                  <input type="email" name="email" placeholder="Your Email" required />
+                  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                 <button type="submit" class="btn">Send Message</button>
+                </form>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/Ritik505" target="_blank" title="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/RV_Programmer" target="_blank" title="Twitter (X)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/ritik-verma-10b446326" target="_blank" title="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <p>© 2024 Ritik Verma. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const body = document.body;
+        const header = document.getElementById('header');
+        const navLinks = document.getElementById('nav-links');
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const heroSection = document.getElementById('hero');
+        
+        // --- Sticky Navbar ---
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        // --- Parallax Effect ---
+        const handleParallax = () => {
+             const scrollY = window.scrollY;
+             if (heroSection) {
+                 // You can add layered background images here and move them at different speeds
+                 // For now, let's move the 3D model slightly for depth
+                 const model = document.querySelector('.hero-3d-model');
+                 if(model) {
+                     model.style.transform = `translateY(${scrollY * 0.2}px)`;
+                 }
+             }
+        };
+        window.addEventListener('scroll', handleParallax);
+
+        // --- Mobile Navigation ---
+        mobileNavToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile nav when a link is clicked
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // --- Scroll Animations ---
+        const animatedElements = document.querySelectorAll('.animated');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        animatedElements.forEach(el => observer.observe(el));
+        
+        // --- Accessibility ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const contrastToggle = document.getElementById('contrast-toggle');
+        const fontIncrease = document.getElementById('font-increase');
+        const fontDecrease = document.getElementById('font-decrease');
+
+        // Load saved settings
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.classList.add(currentTheme);
+        }
+        const currentContrast = localStorage.getItem('contrast');
+        if (currentContrast) {
+            body.classList.add(currentContrast);
+        }
+        const currentFontSize = localStorage.getItem('fontSize');
+        if (currentFontSize) {
+            document.documentElement.style.setProperty('--font-size', currentFontSize);
+        }
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            let theme = body.classList.contains('light-mode') ? 'light-mode' : '';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Contrast Toggle
+        contrastToggle.addEventListener('click', () => {
+            body.classList.toggle('high-contrast');
+            let contrast = body.classList.contains('high-contrast') ? 'high-contrast' : '';
+            localStorage.setItem('contrast', contrast);
+        });
+
+        // Font Size Controls
+        const updateFontSize = (increment) => {
+            const root = document.documentElement;
+            const currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--font-size'));
+            const newSize = currentSize + increment;
+            if (newSize >= 12 && newSize <= 22) { // Set min/max font size
+                const newSizePx = `${newSize}px`;
+                root.style.setProperty('--font-size', newSizePx);
+                localStorage.setItem('fontSize', newSizePx);
+            }
+        };
+
+        fontIncrease.addEventListener('click', () => updateFontSize(1));
+        fontDecrease.addEventListener('click', () => updateFontSize(-1));
+
+        // --- Contact Form ---
+
+
+    });
+    </script>
+</body>
+</html>
