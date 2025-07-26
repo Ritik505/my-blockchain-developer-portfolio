@@ -3,45 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thank You</title>
+  <title>Confirmation & Receipt</title>
+  
+  <!-- Custom SVG Favicon for premium branding -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23D4AF37'>✓</text></svg>">
+  
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg-dark: #050505;
+      --accent-gold: #D4AF37;
+      --text-light: #F5F5F5;
+      --text-muted: #BDBDBD;
+      --card-bg: rgba(18, 18, 18, 0.6);
+      --glow-color: rgba(212, 175, 55, 0.5);
+      
+      /* CSS variables for JS interactivity */
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+      --rotate-x: 0deg;
+      --rotate-y: 0deg;
+    }
+
     body {
       margin: 0;
-      background-color: #0D0D0D;
-      color: #00FFC6;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: var(--bg-dark);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-light);
+      display: grid;
+      place-items: center;
       height: 100vh;
-      flex-direction: column;
-      text-align: center;
+      padding: 0 20px;
+      overflow: hidden;
+      
+      /* Mouse-following spotlight effect */
+      background-image: radial-gradient(
+        circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.04) 0%,
+        transparent 20%
+      );
+      perspective: 1200px; /* Enable 3D space for child elements */
     }
+
+    .thank-you-container {
+      position: relative;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px) saturate(200%);
+      padding: 40px 50px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      
+      /* 3D tilt effect driven by JS */
+      transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+      transform-style: preserve-3d;
+      
+      /* Entrance animation: card unfolds */
+      opacity: 0;
+      transform-origin: center;
+      animation: unfoldCard 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards;
+    }
+
+    /* Animated drawing of the checkmark */
+    .checkmark-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out 1.2s forwards;
+    }
+    .checkmark-circle, .checkmark-check {
+      stroke: var(--accent-gold);
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+    }
+    .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      animation: stroke 0.8s cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards;
+    }
+    .checkmark-check {
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: stroke 0.5s cubic-bezier(0.65, 0, 0.45, 1) 2.1s forwards,
+                 glow 1.5s ease-in-out 2.6s infinite alternate;
+    }
+
+    /* Staggered text reveal */
+    h1, .subtitle, p, a.button {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: revealText 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+    
     h1 {
-      font-size: 3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin: 0;
+      animation-delay: 2.5s;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 5px 0 15px 0;
+      font-weight: 700;
+      animation-delay: 2.6s;
     }
     p {
-      font-size: 1.2rem;
-      color: #ccc;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 30px;
+      animation-delay: 2.7s;
     }
-    a {
-      margin-top: 20px;
+
+    /* "Liquid fill" button effect */
+    a.button {
       display: inline-block;
-      padding: 12px 24px;
-      background-color: #00FFC6;
-      color: #000;
+      padding: 14px 30px;
+      background-color: transparent;
+      color: var(--accent-gold);
+      font-weight: 700;
       text-decoration: none;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
+      border-radius: 50px;
+      border: 2px solid var(--accent-gold);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      animation-delay: 2.9s;
     }
-    a:hover {
-      background-color: #00cc99;
+    a.button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: var(--accent-gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+      z-index: -1;
+    }
+    a.button:hover {
+      color: var(--bg-dark);
+      border-color: var(--accent-gold);
+    }
+    a.button:hover::before {
+      transform: scaleX(1);
+    }
+    a.button:active {
+      transform: scale(0.97) translateY(20px);
+    }
+
+    /* Animation Keyframes */
+    @keyframes unfoldCard {
+      from { opacity: 0; transform: scaleY(0); }
+      to   { opacity: 1; transform: scaleY(1); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes revealText {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes stroke {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 2px var(--glow-color)); }
+      to { filter: drop-shadow(0 0 8px var(--glow-color)); }
+    }
+    
+    @media (max-width: 600px) {
+      .thank-you-container { padding: 30px 25px; }
+      h1 { font-size: 2.2rem; }
+      p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <h1>✅ Thank You!</h1>
-  <p>Your message has been sent successfully.</p>
-  <a href="index.html">Return to Home</a>
+
+  <div class="thank-you-container">
+    <svg class="checkmark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="25"/>
+      <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    
+    <h1>Thank You</h1>
+    <div class="subtitle">Confirmation Receipt</div>
+    <p>Your message has been successfully transmitted. We value your inquiry and will be in touch shortly.</p>
+    <a href="index.html" class="button">Return to Homepage</a>
+  </div>
+
+  <script>
+    const container = document.querySelector('.thank-you-container');
+    const root = document.documentElement;
+
+    document.addEventListener('mousemove', e => {
+      // For the spotlight effect
+      root.style.setProperty('--mouse-x', e.clientX + 'px');
+      root.style.setProperty('--mouse-y', e.clientY + 'px');
+
+      // For the 3D tilt effect
+      const { clientWidth, clientHeight } = root;
+      const x = (e.clientX - clientWidth / 2) / clientWidth;
+      const y = (e.clientY - clientHeight / 2) / clientHeight;
+      
+      const rotateY = x * -20; // Max rotation 20deg
+      const rotateX = y * 20;  // Max rotation 20deg
+
+      root.style.setProperty('--rotate-y', rotateY + 'deg');
+      root.style.setProperty('--rotate-x', rotateX + 'deg');
+    });
+  </script>
+
 </body>
 </html>
